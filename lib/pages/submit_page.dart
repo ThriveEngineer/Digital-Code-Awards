@@ -20,53 +20,67 @@ class SubmitPage extends StatelessWidget {
 
   // Function to submit data to Firebase
   Future<void> _submitForm(BuildContext context) async {
-    try {
-      // Create a data object
-      final submissionData = {
-        'title': _titleController.text,
-        'category': _categoryController.text,
-        'url': _urlController.text,
-        'description': _descriptionController.text,
-        'projectBy': _nameController.text,
-        'country': _countryController.text,
-        'email': _emailController.text,
-        'submissionDate': FieldValue.serverTimestamp(),
-      };
+  try {
+    // Create a data object
+    final submissionData = {
+      'title': _titleController.text,
+      'category': _categoryController.text,
+      'url': _urlController.text,
+      'description': _descriptionController.text,
+      'projectBy': _nameController.text,
+      'country': _countryController.text,
+      'email': _emailController.text,
+      'submissionDate': FieldValue.serverTimestamp(),
+    };
 
-      // Add validation
-      if (_titleController.text.isEmpty || 
-          _urlController.text.isEmpty || 
-          _emailController.text.isEmpty) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Please fill in all required fields')),
-        );
-        return;
-      }
-
-      // Save to Firestore
-      await _firestore.collection('submissions').add(submissionData);
-
-      // Show success message
+    // Add validation
+    if (_titleController.text.isEmpty || 
+        _nameController.text.isEmpty || 
+        _emailController.text.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Submission successful!')),
+        const SnackBar(
+          content: Text('Please fill in all required fields'),
+          backgroundColor: Colors.red,
+        ),
       );
-
-      // Clear form
-      _titleController.clear();
-      _categoryController.clear();
-      _urlController.clear();
-      _descriptionController.clear();
-      _nameController.clear();
-      _countryController.clear();
-      _emailController.clear();
-
-    } catch (e) {
-      // Show error message
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Error submitting form: ${e.toString()}')),
-      );
+      return;
     }
+
+    print('Attempting to save to Firestore...'); // Debug log
+
+    // Save to Firestore - this will automatically create the collection
+    await FirebaseFirestore.instance
+        .collection('submissions')
+        .add(submissionData);
+
+    print('Successfully saved to Firestore'); // Debug log
+
+    // Show success message
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text('Submission successful!'),
+        backgroundColor: Colors.green,
+      ),
+    );
+
+    // Clear form
+    _titleController.clear();
+    _urlController.clear();
+    _descriptionController.clear();
+    _nameController.clear();
+    _countryController.clear();
+    _emailController.clear();
+
+  } catch (e) {
+    print('Error details: $e'); // Debug log
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text('Error submitting form: ${e.toString()}'),
+        backgroundColor: Colors.red,
+      ),
+    );
   }
+}
 
   @override
   Widget build(BuildContext context) {
@@ -143,47 +157,32 @@ class SubmitPage extends StatelessWidget {
 
           Padding(
             padding: EdgeInsets.only(left: mediaQueryData.size.width / 3, right: mediaQueryData.size.width / 3),
-            child: DropdownButtonFormField(
+            child: TextField(
+              controller: _categoryController,
               decoration: InputDecoration(
-                focusColor: Color.fromARGB(0, 16, 15, 15),
-                fillColor: Color.fromARGB(0, 16, 15, 15),
-                hoverColor: Color.fromARGB(0, 16, 15, 15),
+                hintText: "Category | Categories: Website, Mobile App, Desktop App, Package",
+                hintStyle: TextStyle(
+                  color: Color.fromARGB(255, 206, 205, 195),
+                ),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(45),
                   borderSide: BorderSide(
                     color: Color.fromARGB(255, 52, 51, 49),
                   ),
-              )),
-              items: [
-                DropdownMenuItem(
-                  value: "Websites",
-                  child: Text("Websites", style: TextStyle(
-                    color: Color.fromARGB(255, 206, 205, 195)
-                  ),),
                 ),
-
-                DropdownMenuItem(
-                  value: "Mobiel Apps",
-                  child: Text("Mobile Apps", style: TextStyle(
-                    color: Color.fromARGB(255, 206, 205, 195)
-                  ),),
+                enabledBorder: OutlineInputBorder(
+                  borderSide: BorderSide(
+                    color: Color.fromARGB(255, 206, 205, 195),
+                  ),
+                  borderRadius: BorderRadius.circular(45)
                 ),
-
-                DropdownMenuItem(
-                  value: "Desktop Apps",
-                  child: Text("Desktop Apps", style: TextStyle(
-                    color: Color.fromARGB(255, 206, 205, 195)
-                  ),),
+                focusedBorder: OutlineInputBorder(
+                  borderSide: BorderSide(
+                    color: Color.fromARGB(255, 206, 205, 195),
+                  ),
+                  borderRadius: BorderRadius.circular(45)
                 ),
-
-                DropdownMenuItem(
-                  value: "Pakages",
-                  child: Text("Packeges", style: TextStyle(
-                    color: Color.fromARGB(255, 206, 205, 195)
-                  ),),
-                ),
-              ], 
-              onChanged: (Object? value) {},
+              ),
             ),
           ),
 
@@ -194,7 +193,7 @@ class SubmitPage extends StatelessWidget {
             child: TextField(
               controller: _urlController,
               decoration: InputDecoration(
-                hintText: "URL (include https://)",
+                hintText: "URL (include https://) | When it's not a website just write URL in this field",
                 hintStyle: TextStyle(
                   color: Color.fromARGB(255, 206, 205, 195),
                 ),
