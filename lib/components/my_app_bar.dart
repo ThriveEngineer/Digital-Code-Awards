@@ -1,3 +1,4 @@
+import 'package:dca/pages/explore_page.dart';
 import 'package:dca/pages/submit_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_ad_manager_web/flutter_ad_manager_web.dart';
@@ -28,6 +29,7 @@ class MyAppBar extends StatelessWidget {
 
             InkWell(
               onTap: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context) => const ExplorePage()));
               },
               child: Text("Explore", style: TextStyle(
                 color: Color.fromARGB(255, 206, 205, 195),

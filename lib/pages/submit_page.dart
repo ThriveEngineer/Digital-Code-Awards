@@ -1,19 +1,33 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dca/components/footer.dart';
+import 'package:dca/components/image_button.dart';
 import 'package:dca/components/my_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 
-class SubmitPage extends StatelessWidget {
+class SubmitPage extends StatefulWidget {
   SubmitPage({super.key});
 
+  @override
+  State<SubmitPage> createState() => _SubmitPageState();
+}
+
+class _SubmitPageState extends State<SubmitPage> {
   final TextEditingController _titleController = TextEditingController();
+
   final TextEditingController _categoryController = TextEditingController();
+
   final TextEditingController _urlController = TextEditingController();
+
   final TextEditingController _descriptionController = TextEditingController();
+
   final TextEditingController _emailController = TextEditingController();
+
   final TextEditingController _countryController = TextEditingController();
+
   final TextEditingController _nameController = TextEditingController();
+
+  String? _thumbnailUrl;
 
   // Reference to Firestore
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
@@ -30,6 +44,7 @@ class SubmitPage extends StatelessWidget {
       'projectBy': _nameController.text,
       'country': _countryController.text,
       'email': _emailController.text,
+      'thumbnailUrl': _thumbnailUrl,
       'submissionDate': FieldValue.serverTimestamp(),
     };
 
@@ -253,16 +268,12 @@ class SubmitPage extends StatelessWidget {
             ),
           ),
 
-          TextButton(
-          onPressed: () {
-            
-          },
-           child: Text(
-            "Thumbanil (1200 x 697)",
-            style: TextStyle(
-            color: Color.fromARGB(255, 206, 205, 195),
-            ),
-          )
+          ImageUploadButton(
+            onImageUploaded: (String url) {
+              setState(() {
+                _thumbnailUrl = url;
+              });
+            },
           ),
 
           SizedBox(height: 20,),
