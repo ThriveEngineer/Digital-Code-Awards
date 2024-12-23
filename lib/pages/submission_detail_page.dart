@@ -79,6 +79,23 @@ class SubmissionDetailPage extends StatelessWidget {
                     ),
                   ),
 
+                  // Description
+                  Padding(
+                    padding: EdgeInsets.symmetric(
+                      horizontal: MediaQuery.of(context).size.width * 0.2,
+                      vertical: 20,
+                    ),
+                    child: Text(
+                      description,
+                      style: TextStyle(
+                        color: Color.fromARGB(255, 158, 158, 151),
+                        fontSize: 18,
+                        height: 1.6,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+
                   // Metadata Row
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 20.0),
@@ -102,8 +119,8 @@ class SubmissionDetailPage extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.all(40.0),
                       child: Container(
-                        width: MediaQuery.of(context).size.width * 0.6,
-                        height: 400,
+                        width: 1200,
+                        height: 697,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(20),
                           boxShadow: [
@@ -121,23 +138,6 @@ class SubmissionDetailPage extends StatelessWidget {
                         ),
                       ),
                     ),
-
-                  // Description
-                  Padding(
-                    padding: EdgeInsets.symmetric(
-                      horizontal: MediaQuery.of(context).size.width * 0.2,
-                      vertical: 20,
-                    ),
-                    child: Text(
-                      description,
-                      style: TextStyle(
-                        color: Color.fromARGB(255, 158, 158, 151),
-                        fontSize: 18,
-                        height: 1.6,
-                      ),
-                      textAlign: TextAlign.center,
-                    ),
-                  ),
 
                   // Visit Project Button
                   Padding(
@@ -163,13 +163,13 @@ class SubmissionDetailPage extends StatelessWidget {
                       ),
                     ),
                   ),
+
+                  // Footer
+                   Footer(),
                 ],
               ),
             ),
           ),
-
-          // Footer
-          Footer(),
         ],
       ),
     );

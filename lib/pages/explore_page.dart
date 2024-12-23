@@ -21,7 +21,7 @@ class _ExplorePageState extends State<ExplorePage> {
     'Website',
     'Mobile App',
     'Desktop App',
-    'Package'
+    'Packages'
   ];
 
   @override

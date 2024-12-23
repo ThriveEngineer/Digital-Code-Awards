@@ -29,7 +29,11 @@ class MyAppBar extends StatelessWidget {
 
             InkWell(
               onTap: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context) => const ExplorePage()));
+                Navigator.push(context, PageRouteBuilder(
+                                pageBuilder: (context, animation1, animation2) => ExplorePage(),
+                                transitionDuration: Duration.zero,
+                                reverseTransitionDuration: Duration.zero,
+                            ),);
               },
               child: Text("Explore", style: TextStyle(
                 color: Color.fromARGB(255, 206, 205, 195),

@@ -1,9 +1,14 @@
 import 'package:dca/pages/explore_page.dart';
 import 'package:dca/pages/home_page.dart';
+import 'package:dca/pages/submit_page.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 final Uri _urlPrivacy = Uri.parse('https://thrive.framer.media/privacy');
+final Uri _urlBluesky = Uri.parse('https://bsky.app/profile/digitalcodeawards.bsky.social');
+final Uri _urlThreads = Uri.parse('https://www.threads.net/@digital.code.awards');
+final Uri _urlInstagram = Uri.parse('https://www.instagram.com/digital.code.awards/');
+final Uri _urlPosts = Uri.parse('https://posts.cv/digital.code.awards');
 
 class Footer extends StatelessWidget {
   const Footer({super.key});
@@ -12,6 +17,30 @@ class Footer extends StatelessWidget {
   Widget build(BuildContext context) {
     Future<void> _launchUrlPrivacy() async {
   if (!await launchUrl(_urlPrivacy)) {
+    throw Exception('Could not launch');
+  }
+}
+
+Future<void> _launchUrlBluesky() async {
+  if (!await launchUrl(_urlBluesky)) {
+    throw Exception('Could not launch');
+  }
+}
+
+Future<void> _launchUrlThreads() async {
+  if (!await launchUrl(_urlThreads)) {
+    throw Exception('Could not launch');
+  }
+}
+
+Future<void> _launchUrlInstagram() async {
+  if (!await launchUrl(_urlInstagram)) {
+    throw Exception('Could not launch');
+  }
+}
+
+Future<void> _launchUrlPosts() async {
+  if (!await launchUrl(_urlPosts)) {
     throw Exception('Could not launch');
   }
 }
@@ -50,7 +79,11 @@ final mediaQueryData = MediaQuery.of(context);
                 
                           InkWell(
                             onTap: () {
-                              Navigator.push(context, MaterialPageRoute(builder: (context) => HomePage()));
+                              Navigator.push(context, PageRouteBuilder(
+                                pageBuilder: (context, animation1, animation2) => HomePage(),
+                                transitionDuration: Duration.zero,
+                                reverseTransitionDuration: Duration.zero,
+                            ),);
                             },
                             child: Text("Home", style: TextStyle(
                               color: Color.fromARGB(255, 206, 205, 195),
@@ -77,42 +110,13 @@ final mediaQueryData = MediaQuery.of(context);
                 
                           InkWell(
                             onTap: () {
-                              
+                              Navigator.push(context, PageRouteBuilder(
+                                pageBuilder: (context, animation1, animation2) => SubmitPage(),
+                                transitionDuration: Duration.zero,
+                                reverseTransitionDuration: Duration.zero,
+                            ),);
                             },
-                            child: Text("Websites", style: TextStyle(
-                              color: Color.fromARGB(255, 206, 205, 195),
-                              fontSize: 18,
-                              fontWeight: FontWeight.w500,
-                            ),),
-                          ),
-                
-                          InkWell(
-                            onTap: () {
-                              
-                            },
-                            child: Text("Packages", style: TextStyle(
-                              color: Color.fromARGB(255, 206, 205, 195),
-                              fontSize: 18,
-                              fontWeight: FontWeight.w500,
-                            ),),
-                          ),
-                
-                          InkWell(
-                            onTap: () {
-                              
-                            },
-                            child: Text("Desktop Apps", style: TextStyle(
-                              color: Color.fromARGB(255, 206, 205, 195),
-                              fontSize: 18,
-                              fontWeight: FontWeight.w500,
-                            ),),
-                          ),
-                
-                          InkWell(
-                            onTap: () {
-                              
-                            },
-                            child: Text("Mobile Apps", style: TextStyle(
+                            child: Text("Submit", style: TextStyle(
                               color: Color.fromARGB(255, 206, 205, 195),
                               fontSize: 18,
                               fontWeight: FontWeight.w500,
@@ -142,7 +146,7 @@ final mediaQueryData = MediaQuery.of(context);
                 
                           InkWell(
                             onTap: () {
-                              
+                              _launchUrlBluesky();
                             },
                             child: Text("Bluesky", style: TextStyle(
                               color: Color.fromARGB(255, 206, 205, 195),
@@ -153,7 +157,7 @@ final mediaQueryData = MediaQuery.of(context);
                 
                           InkWell(
                             onTap: () {
-                              
+                              _launchUrlThreads();
                             },
                             child: Text("Threads", style: TextStyle(
                               color: Color.fromARGB(255, 206, 205, 195),
@@ -164,7 +168,7 @@ final mediaQueryData = MediaQuery.of(context);
                 
                           InkWell(
                             onTap: () {
-                              
+                              _launchUrlPosts();
                             },
                             child: Text("Posts.cv", style: TextStyle(
                               color: Color.fromARGB(255, 206, 205, 195),
@@ -175,7 +179,7 @@ final mediaQueryData = MediaQuery.of(context);
 
                           InkWell(
                             onTap: () {
-                              
+                              _launchUrlInstagram();
                             },
                             child: Text("Instagram", style: TextStyle(
                               color: Color.fromARGB(255, 206, 205, 195),
