@@ -4,7 +4,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_ad_manager_web/flutter_ad_manager_web.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+final Uri _urlKofi = Uri.parse('https://ko-fi.com/thriveengineer');
+
 class MyAppBar extends StatelessWidget {
+
+  Future<void> _launchUrlKofi() async {
+  if (!await launchUrl(_urlKofi)) {
+    throw Exception('Could not launch');
+  }
+}
+
   const MyAppBar({super.key});
 
   @override
@@ -47,7 +56,9 @@ class MyAppBar extends StatelessWidget {
               SizedBox(width: 15,),
 
               InkWell(
-              onTap: () {},
+              onTap: () {
+                _launchUrlKofi();
+              },
               child: Container(
                 width: 150,
                 height: 40,

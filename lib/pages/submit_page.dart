@@ -45,6 +45,8 @@ class _SubmitPageState extends State<SubmitPage> {
       'country': _countryController.text,
       'email': _emailController.text,
       'thumbnailUrl': _thumbnailUrl,
+      'points': 0,
+      'votesCount': 0,
       'submissionDate': FieldValue.serverTimestamp(),
     };
 
@@ -147,7 +149,7 @@ class _SubmitPageState extends State<SubmitPage> {
                   color: Color.fromARGB(255, 206, 205, 195),
                 ),
                 border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(45),
+                  borderRadius: BorderRadius.circular(8),
                   borderSide: BorderSide(
                     color: Color.fromARGB(255, 52, 51, 49),
                   ),
@@ -156,13 +158,13 @@ class _SubmitPageState extends State<SubmitPage> {
                   borderSide: BorderSide(
                     color: Color.fromARGB(255, 206, 205, 195),
                   ),
-                  borderRadius: BorderRadius.circular(45)
+                  borderRadius: BorderRadius.circular(8)
                 ),
                 focusedBorder: OutlineInputBorder(
                   borderSide: BorderSide(
                     color: Color.fromARGB(255, 206, 205, 195),
                   ),
-                  borderRadius: BorderRadius.circular(45)
+                  borderRadius: BorderRadius.circular(8)
                 ),
               ),
             ),
@@ -180,7 +182,7 @@ class _SubmitPageState extends State<SubmitPage> {
                   color: Color.fromARGB(255, 206, 205, 195),
                 ),
                 border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(45),
+                  borderRadius: BorderRadius.circular(8),
                   borderSide: BorderSide(
                     color: Color.fromARGB(255, 52, 51, 49),
                   ),
@@ -189,13 +191,13 @@ class _SubmitPageState extends State<SubmitPage> {
                   borderSide: BorderSide(
                     color: Color.fromARGB(255, 206, 205, 195),
                   ),
-                  borderRadius: BorderRadius.circular(45)
+                  borderRadius: BorderRadius.circular(8)
                 ),
                 focusedBorder: OutlineInputBorder(
                   borderSide: BorderSide(
                     color: Color.fromARGB(255, 206, 205, 195),
                   ),
-                  borderRadius: BorderRadius.circular(45)
+                  borderRadius: BorderRadius.circular(8)
                 ),
               ),
             ),
@@ -208,12 +210,12 @@ class _SubmitPageState extends State<SubmitPage> {
             child: TextField(
               controller: _urlController,
               decoration: InputDecoration(
-                hintText: "URL (include https://) | When it's not a website just write URL in this field",
+                hintText: "URL (include https://) | When it's not a website just write URL or GitHub repo in this field",
                 hintStyle: TextStyle(
                   color: Color.fromARGB(255, 206, 205, 195),
                 ),
                 border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(45),
+                  borderRadius: BorderRadius.circular(8),
                   borderSide: BorderSide(
                     color: Color.fromARGB(255, 52, 51, 49),
                   ),
@@ -222,13 +224,13 @@ class _SubmitPageState extends State<SubmitPage> {
                   borderSide: BorderSide(
                     color: Color.fromARGB(255, 206, 205, 195),
                   ),
-                  borderRadius: BorderRadius.circular(45)
+                  borderRadius: BorderRadius.circular(8)
                 ),
                 focusedBorder: OutlineInputBorder(
                   borderSide: BorderSide(
                     color: Color.fromARGB(255, 206, 205, 195),
                   ),
-                  borderRadius: BorderRadius.circular(45)
+                  borderRadius: BorderRadius.circular(8)
                 ),
               ),
             ),
@@ -247,7 +249,7 @@ class _SubmitPageState extends State<SubmitPage> {
                   color: Color.fromARGB(255, 206, 205, 195),
                 ),
                 border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(45),
+                  borderRadius: BorderRadius.circular(8),
                   borderSide: BorderSide(
                     color: Color.fromARGB(255, 52, 51, 49),
                   ),
@@ -256,13 +258,13 @@ class _SubmitPageState extends State<SubmitPage> {
                   borderSide: BorderSide(
                     color: Color.fromARGB(255, 206, 205, 195),
                   ),
-                  borderRadius: BorderRadius.circular(45)
+                  borderRadius: BorderRadius.circular(8)
                 ),
                 focusedBorder: OutlineInputBorder(
                   borderSide: BorderSide(
                     color: Color.fromARGB(255, 206, 205, 195),
                   ),
-                  borderRadius: BorderRadius.circular(45)
+                  borderRadius: BorderRadius.circular(8)
                 ),
               ),
             ),
@@ -288,7 +290,7 @@ class _SubmitPageState extends State<SubmitPage> {
                   color: Color.fromARGB(255, 206, 205, 195),
                 ),
                 border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(45),
+                  borderRadius: BorderRadius.circular(8),
                   borderSide: BorderSide(
                     color: Color.fromARGB(255, 52, 51, 49),
                   ),
@@ -297,13 +299,13 @@ class _SubmitPageState extends State<SubmitPage> {
                   borderSide: BorderSide(
                     color: Color.fromARGB(255, 206, 205, 195),
                   ),
-                  borderRadius: BorderRadius.circular(45)
+                  borderRadius: BorderRadius.circular(8)
                 ),
                 focusedBorder: OutlineInputBorder(
                   borderSide: BorderSide(
                     color: Color.fromARGB(255, 206, 205, 195),
                   ),
-                  borderRadius: BorderRadius.circular(45)
+                  borderRadius: BorderRadius.circular(8)
                 ),
               ),
             ),
@@ -321,7 +323,7 @@ class _SubmitPageState extends State<SubmitPage> {
                   color: Color.fromARGB(255, 206, 205, 195),
                 ),
                 border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(45),
+                  borderRadius: BorderRadius.circular(8),
                   borderSide: BorderSide(
                     color: Color.fromARGB(255, 52, 51, 49),
                   ),
@@ -330,13 +332,13 @@ class _SubmitPageState extends State<SubmitPage> {
                   borderSide: BorderSide(
                     color: Color.fromARGB(255, 206, 205, 195),
                   ),
-                  borderRadius: BorderRadius.circular(45)
+                  borderRadius: BorderRadius.circular(8)
                 ),
                 focusedBorder: OutlineInputBorder(
                   borderSide: BorderSide(
                     color: Color.fromARGB(255, 206, 205, 195),
                   ),
-                  borderRadius: BorderRadius.circular(45)
+                  borderRadius: BorderRadius.circular(8)
                 ),
               ),
             ),
@@ -353,7 +355,7 @@ class _SubmitPageState extends State<SubmitPage> {
                   color: Color.fromARGB(255, 206, 205, 195),
                 ),
                 border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(45),
+                  borderRadius: BorderRadius.circular(8),
                   borderSide: BorderSide(
                     color: Color.fromARGB(255, 52, 51, 49),
                   ),
@@ -362,13 +364,13 @@ class _SubmitPageState extends State<SubmitPage> {
                   borderSide: BorderSide(
                     color: Color.fromARGB(255, 206, 205, 195),
                   ),
-                  borderRadius: BorderRadius.circular(45)
+                  borderRadius: BorderRadius.circular(8)
                 ),
                 focusedBorder: OutlineInputBorder(
                   borderSide: BorderSide(
                     color: Color.fromARGB(255, 206, 205, 195),
                   ),
-                  borderRadius: BorderRadius.circular(45)
+                  borderRadius: BorderRadius.circular(8)
                 ),
               ),
             ),
@@ -384,7 +386,7 @@ class _SubmitPageState extends State<SubmitPage> {
               side: BorderSide(
                 color: Color.fromARGB(255, 52, 51, 49),),
               shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(45),
+                borderRadius: BorderRadius.circular(8),
               ),
             ),
             onPressed: () => _submitForm(context), 

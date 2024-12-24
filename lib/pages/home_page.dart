@@ -103,7 +103,11 @@ class HomePage extends StatelessWidget {
               // WEBSITES
               InkWell(
                 onTap: () {
-                  
+                  Navigator.push(context, PageRouteBuilder(
+                                pageBuilder: (context, animation1, animation2) => ExplorePage(),
+                                transitionDuration: Duration.zero,
+                                reverseTransitionDuration: Duration.zero,
+                            ),);
                 },
                 child: Stack(
                   children: [
@@ -143,7 +147,11 @@ class HomePage extends StatelessWidget {
               // MOBILE APPS
               InkWell(
                 onTap: () {
-                  
+                  Navigator.push(context, PageRouteBuilder(
+                                pageBuilder: (context, animation1, animation2) => ExplorePage(),
+                                transitionDuration: Duration.zero,
+                                reverseTransitionDuration: Duration.zero,
+                            ),);
                 },
                 child: Stack(
                   children: [
@@ -192,7 +200,11 @@ class HomePage extends StatelessWidget {
                   // PACKAGES
                   InkWell(
                     onTap: () {
-                      
+                      Navigator.push(context, PageRouteBuilder(
+                                pageBuilder: (context, animation1, animation2) => ExplorePage(),
+                                transitionDuration: Duration.zero,
+                                reverseTransitionDuration: Duration.zero,
+                            ),);
                     },
                     child: Stack(
                       children: [
@@ -232,7 +244,11 @@ class HomePage extends StatelessWidget {
                   // DESKTOP APPS
                   InkWell(
                     onTap: () {
-                      
+                      Navigator.push(context, PageRouteBuilder(
+                                pageBuilder: (context, animation1, animation2) => ExplorePage(),
+                                transitionDuration: Duration.zero,
+                                reverseTransitionDuration: Duration.zero,
+                            ),);
                     },
                     child: Stack(
                       children: [

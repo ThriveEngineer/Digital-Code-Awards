@@ -1,3 +1,4 @@
+import 'package:dca/components/voting_system.dart';
 import 'package:dca/pages/submission_detail_page.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -15,6 +16,8 @@ class _ExplorePageState extends State<ExplorePage> {
   final TextEditingController _searchController = TextEditingController();
   String _selectedCategory = 'All';
   String _searchQuery = '';
+  String _sortBy = 'points'; 
+  bool _descending = true;
   
   final List<String> _categories = [
     'All',
@@ -24,106 +27,148 @@ class _ExplorePageState extends State<ExplorePage> {
     'Packages'
   ];
 
+  Stream<QuerySnapshot> get _submissionsStream => FirebaseFirestore.instance
+    .collection('submissions')
+    .orderBy(_sortBy, descending: _descending)
+    .snapshots();
+
   @override
   Widget build(BuildContext context) {
-    final mediaQueryData = MediaQuery.of(context);
-    
     return Scaffold(
       backgroundColor: Colors.black,
-      body: Column(
-        children: [
-          // APP BAR
-          Padding(
-            padding: const EdgeInsets.only(left: 270, right: 270, top: 20),
-            child: MyAppBar(),
-          ),
+      body: SafeArea(
+        child: CustomScrollView(
+          slivers: [
+            SliverToBoxAdapter(
+              child: Column(
+                children: [
+                  // APP BAR
+                  Padding(
+                    padding: const EdgeInsets.only(left: 270, right: 270, top: 20),
+                    child: MyAppBar(),
+                  ),
 
-          // Search and Filter Section
-          Padding(
-            padding: const EdgeInsets.all(20.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                // Search Bar
-                Container(
-                  width: 400,
-                  child: TextField(
-                    controller: _searchController,
-                    style: TextStyle(color: Color.fromARGB(255, 206, 205, 195)),
-                    decoration: InputDecoration(
-                      hintText: 'Search submissions...',
-                      hintStyle: TextStyle(color: Color.fromARGB(255, 158, 158, 151)),
-                      prefixIcon: Icon(Icons.search, color: Color.fromARGB(255, 158, 158, 151)),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(45),
-                        borderSide: BorderSide(color: Color.fromARGB(255, 52, 51, 49)),
-                      ),
-                      enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(45),
-                        borderSide: BorderSide(color: Color.fromARGB(255, 52, 51, 49)),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(45),
-                        borderSide: BorderSide(color: Color.fromARGB(255, 206, 205, 195)),
-                      ),
+                  // Search and Filter Section
+                  Padding(
+                    padding: const EdgeInsets.all(20.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        // Search Bar
+                        SizedBox(
+                          width: 400,
+                          child: TextField(
+                            controller: _searchController,
+                            style: const TextStyle(color: Color.fromARGB(255, 206, 205, 195)),
+                            decoration: InputDecoration(
+                              hintText: 'Search submissions...',
+                              hintStyle: const TextStyle(color: Color.fromARGB(255, 158, 158, 151)),
+                              prefixIcon: const Icon(Icons.search, color: Color.fromARGB(255, 158, 158, 151)),
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(8),
+                                borderSide: const BorderSide(color: Color.fromARGB(255, 52, 51, 49)),
+                              ),
+                              enabledBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(8),
+                                borderSide: const BorderSide(color: Color.fromARGB(255, 52, 51, 49)),
+                              ),
+                              focusedBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(8),
+                                borderSide: const BorderSide(color: Color.fromARGB(255, 206, 205, 195)),
+                              ),
+                            ),
+                            onChanged: (value) {
+                              setState(() {
+                                _searchQuery = value;
+                              });
+                            },
+                          ),
+                        ),
+                        
+                        const SizedBox(width: 20),
+                        
+                        // Category Filter Dropdown
+                        Container(
+                          decoration: BoxDecoration(
+                            border: Border.all(color: const Color.fromARGB(255, 52, 51, 49)),
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          padding: const EdgeInsets.symmetric(horizontal: 16),
+                          child: DropdownButton<String>(
+                            value: _selectedCategory,
+                            dropdownColor: Colors.black,
+                            style: const TextStyle(color: Color.fromARGB(255, 206, 205, 195)),
+                            underline: Container(),
+                            items: _categories.map((String category) {
+                              return DropdownMenuItem<String>(
+                                value: category,
+                                child: Text(category),
+                              );
+                            }).toList(),
+                            onChanged: (String? newValue) {
+                              setState(() {
+                                _selectedCategory = newValue ?? 'All';
+                              });
+                            },
+                          ),
+                        ),
+
+                        const SizedBox(width: 20),
+
+                        // Sort
+                        Container(
+                          decoration: BoxDecoration(
+                            border: Border.all(color: const Color.fromARGB(255, 52, 51, 49)),
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          padding: const EdgeInsets.symmetric(horizontal: 16),
+                          child: DropdownButton<String>(
+                            value: '${_sortBy}${_descending ? "Desc" : "Asc"}',
+                            dropdownColor: Colors.black,
+                            style: const TextStyle(color: Color.fromARGB(255, 206, 205, 195)),
+                            underline: Container(),
+                            items: const [
+                              DropdownMenuItem(value: 'pointsDesc', child: Text('Most Votes')),
+                              DropdownMenuItem(value: 'pointsAsc', child: Text('Least Votes')),
+                              DropdownMenuItem(value: 'submissionDateDesc', child: Text('Newest')),
+                              DropdownMenuItem(value: 'submissionDateAsc', child: Text('Oldest')),
+                            ],
+                            onChanged: (String? newValue) {
+                              setState(() {
+                                _sortBy = newValue?.replaceAll('Desc', '').replaceAll('Asc', '') ?? 'points';
+                                _descending = newValue?.contains('Desc') ?? true;
+                              });
+                            },
+                          ),
+                        ),
+                      ],
                     ),
-                    onChanged: (value) {
-                      setState(() {
-                        _searchQuery = value;
-                      });
-                    },
                   ),
-                ),
-                
-                SizedBox(width: 20),
-                
-                // Category Filter Dropdown
-                Container(
-                  decoration: BoxDecoration(
-                    border: Border.all(color: Color.fromARGB(255, 52, 51, 49)),
-                    borderRadius: BorderRadius.circular(45),
-                  ),
-                  padding: EdgeInsets.symmetric(horizontal: 16),
-                  child: DropdownButton<String>(
-                    value: _selectedCategory,
-                    dropdownColor: Colors.black,
-                    style: TextStyle(color: Color.fromARGB(255, 206, 205, 195)),
-                    underline: Container(),
-                    items: _categories.map((String category) {
-                      return DropdownMenuItem<String>(
-                        value: category,
-                        child: Text(category),
-                      );
-                    }).toList(),
-                    onChanged: (String? newValue) {
-                      setState(() {
-                        _selectedCategory = newValue ?? 'All';
-                      });
-                    },
-                  ),
-                ),
-              ],
+                ],
+              ),
             ),
-          ),
 
-          // Submissions Grid
-          Expanded(
-            child: StreamBuilder<QuerySnapshot>(
-              stream: FirebaseFirestore.instance.collection('submissions').snapshots(),
+            // Submissions Grid
+            StreamBuilder<QuerySnapshot>(
+              stream: _submissionsStream,
               builder: (context, snapshot) {
                 if (snapshot.hasError) {
-                  return Center(
-                    child: Text(
-                      'Error: ${snapshot.error}',
-                      style: TextStyle(color: Color.fromARGB(255, 206, 205, 195)),
+                  return SliverFillRemaining(
+                    child: Center(
+                      child: Text(
+                        'Error: ${snapshot.error}',
+                        style: const TextStyle(color: Color.fromARGB(255, 206, 205, 195)),
+                      ),
                     ),
                   );
                 }
 
                 if (!snapshot.hasData) {
-                  return Center(
-                    child: CircularProgressIndicator(
-                      color: Color.fromARGB(255, 206, 205, 195),
+                  return const SliverFillRemaining(
+                    child: Center(
+                      child: CircularProgressIndicator(
+                        color: Color.fromARGB(255, 206, 205, 195),
+                      ),
                     ),
                   );
                 }
@@ -140,50 +185,67 @@ class _ExplorePageState extends State<ExplorePage> {
                 }).toList();
 
                 if (filteredSubmissions.isEmpty) {
-                  return Center(
-                    child: Text(
-                      'No submissions found',
-                      style: TextStyle(color: Color.fromARGB(255, 206, 205, 195)),
+                  return const SliverFillRemaining(
+                    child: Center(
+                      child: Text(
+                        'No submissions found',
+                        style: TextStyle(color: Color.fromARGB(255, 206, 205, 195)),
+                      ),
                     ),
                   );
                 }
 
-                return GridView.builder(
-                  padding: EdgeInsets.all(20),
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 3,
-                    crossAxisSpacing: 20,
-                    mainAxisSpacing: 20,
-                    childAspectRatio: 1.45,
+                return SliverPadding(
+                  padding: const EdgeInsets.all(20),
+                  sliver: SliverGrid(
+                    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 3,
+                      crossAxisSpacing: 20,
+                      mainAxisSpacing: 20,
+                      childAspectRatio: 1.45,
+                    ),
+                    delegate: SliverChildBuilderDelegate(
+                      (context, index) {
+                        final data = filteredSubmissions[index].data() as Map<String, dynamic>;
+                        final doc = filteredSubmissions[index];
+                        return SubmissionCard(
+                          title: data['title'] ?? '',
+                          description: data['description'] ?? '',
+                          thumbnailUrl: data['thumbnailUrl'] ?? '',
+                          projectUrl: data['url'] ?? '',
+                          category: data['category'] ?? '',
+                          projectBy: data['projectBy'] ?? '',
+                          country: data['country'] ?? '',
+                          id: doc.id,
+                          points: (data['points'] ?? 0) as int,
+                          votesCount: (data['votesCount'] ?? 0) as int,
+                          nominations: (data['nominations'] as List?)?.cast<String>() ?? [],
+                          submissionDate: (data['submissionDate'] as Timestamp?)?.toDate(),
+                        );
+                      },
+                      childCount: filteredSubmissions.length,
+                    ),
                   ),
-                  itemCount: filteredSubmissions.length,
-                  itemBuilder: (context, index) {
-                    final data = filteredSubmissions[index].data() as Map<String, dynamic>;
-                    return SubmissionCard(
-                      title: data['title'] ?? '',
-                      description: data['description'] ?? '',
-                      thumbnailUrl: data['thumbnailUrl'] ?? '',
-                      projectUrl: data['url'] ?? '',
-                      category: data['category'] ?? '',
-                      projectBy: data['projectBy'] ?? '',
-                      country: data['country'] ?? '',
-                      submissionDate: data['submissionDate'].toDate(),
-                    );
-                  },
                 );
               },
             ),
-          ),
 
-          // Footer
-          Footer(),
-        ],
+            // Footer
+            const SliverFillRemaining(
+              hasScrollBody: false,
+              child: Footer(),
+            ),
+          ],
+        ),
       ),
     );
   }
 }
 
 class SubmissionCard extends StatelessWidget {
+  final String id;
+  final int points;
+  final int votesCount;
   final String title;
   final String description;
   final String thumbnailUrl;
@@ -192,8 +254,10 @@ class SubmissionCard extends StatelessWidget {
   final String projectBy;
   final String country;
   final DateTime? submissionDate;
+  final List<String> nominations;
 
   const SubmissionCard({
+    super.key,
     required this.title,
     required this.description,
     required this.thumbnailUrl,
@@ -202,57 +266,86 @@ class SubmissionCard extends StatelessWidget {
     required this.projectBy,
     required this.country,
     required this.submissionDate,
+    required this.id,
+    required this.points,
+    required this.votesCount,
+    required this.nominations,
   });
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => SubmissionDetailPage(
-            title: title,
-            description: description,
-            thumbnailUrl: thumbnailUrl,
-            projectUrl: projectUrl,
-            category: category,
-            projectBy: projectBy,
-            country: country, // Make sure to pass this from your card data
-            submissionDate: submissionDate, // And this as well
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => SubmissionDetailPage(
+              title: title,
+              description: description,
+              thumbnailUrl: thumbnailUrl,
+              projectUrl: projectUrl,
+              category: category,
+              projectBy: projectBy,
+              country: country,
+              submissionDate: submissionDate,
+            ),
           ),
-        ),
-      );
-    },
+        );
+      },
       child: Container(
         decoration: BoxDecoration(
-          color: Color.fromARGB(255, 28, 27, 26),
+          color: const Color.fromARGB(255, 28, 27, 26),
           borderRadius: BorderRadius.circular(15),
+          border: Border.all(color: const Color.fromARGB(255, 52, 51, 49)),
         ),
         clipBehavior: Clip.antiAlias,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Thumbnail
-            Expanded(
-              child: thumbnailUrl.isNotEmpty
-                  ? Image.network(
-                      thumbnailUrl,
-                      width: double.infinity,
-                      fit: BoxFit.cover,
-                    )
-                  : Container(
-                      color: Colors.grey[900],
-                      child: Center(
-                        child: Icon(
-                          Icons.image,
-                          color: Colors.grey[700],
-                          size: 40,
+            // Thumbnail with nominations badge
+            Stack(
+              children: [
+                SizedBox(
+                  height: 400,
+                  width: double.infinity,
+                  child: thumbnailUrl.isNotEmpty
+                      ? Image.network(
+                          thumbnailUrl,
+                          fit: BoxFit.cover,
+                        )
+                      : Container(
+                          color: Colors.grey[900],
+                          child: const Center(
+                            child: Icon(
+                              Icons.image,
+                              color: Colors.grey,
+                              size: 40,
+                            ),
+                          ),
+                        ),
+                ),
+                if (nominations.isNotEmpty)
+                  Positioned(
+                    top: 10,
+                    right: 10,
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                      decoration: BoxDecoration(
+                        color: Colors.amber,
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: const Text(
+                        'Nominated',
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontWeight: FontWeight.bold,
                         ),
                       ),
                     ),
+                  ),
+              ],
             ),
-      
+
             // Content
             Padding(
               padding: const EdgeInsets.all(16.0),
@@ -261,7 +354,7 @@ class SubmissionCard extends StatelessWidget {
                 children: [
                   Text(
                     title,
-                    style: TextStyle(
+                    style: const TextStyle(
                       color: Color.fromARGB(255, 206, 205, 195),
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
@@ -269,40 +362,45 @@ class SubmissionCard extends StatelessWidget {
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                   ),
-                  SizedBox(height: 4),
+                  const SizedBox(height: 4),
                   Text(
                     description,
-                    style: TextStyle(
+                    style: const TextStyle(
                       color: Color.fromARGB(255, 158, 158, 151),
                       fontSize: 14,
                     ),
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
                   ),
-                  SizedBox(height: 8),
+                  const SizedBox(height: 8),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
                         'By $projectBy',
-                        style: TextStyle(
+                        style: const TextStyle(
                           color: Color.fromARGB(255, 158, 158, 151),
                           fontSize: 12,
                         ),
                       ),
                       Container(
-                        padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                         decoration: BoxDecoration(
                           color: Colors.black26,
                           borderRadius: BorderRadius.circular(12),
                         ),
                         child: Text(
                           category,
-                          style: TextStyle(
+                          style: const TextStyle(
                             color: Color.fromARGB(255, 158, 158, 151),
                             fontSize: 12,
                           ),
                         ),
+                      ),
+                      VotingSystem(
+                        projectId: id,
+                        currentPoints: points,
+                        votesCount: votesCount,
                       ),
                     ],
                   ),

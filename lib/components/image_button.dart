@@ -78,7 +78,7 @@ class _ImageUploadButtonState extends State<ImageUploadButton> {
             backgroundColor: Color.fromARGB(255, 28, 27, 26),
             padding: EdgeInsets.symmetric(horizontal: 20, vertical: 15),
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(45),
+              borderRadius: BorderRadius.circular(8),
               side: BorderSide(color: Color.fromARGB(255, 52, 51, 49)),
             ),
           ),

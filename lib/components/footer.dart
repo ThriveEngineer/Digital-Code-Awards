@@ -1,5 +1,7 @@
 import 'package:dca/pages/explore_page.dart';
+import 'package:dca/pages/explore_page_jury.dart';
 import 'package:dca/pages/home_page.dart';
+import 'package:dca/pages/nomination_page.dart';
 import 'package:dca/pages/submit_page.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -221,6 +223,29 @@ final mediaQueryData = MediaQuery.of(context);
                           ),
                       ],
                     ),
+                    InkWell(
+                      onTap: () {
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => ExplorePageJury()));
+                      },
+                      child: Container(
+                        width: 3,
+                        height: 20,
+                        color: Color.fromARGB(255, 16, 15, 15),
+                      ),
+                    ),
+
+                    SizedBox(width: 30,),
+
+                    InkWell(
+                      onTap: () {
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => NominationPage()));
+                      },
+                      child: Container(
+                        width: 3,
+                        height: 20,
+                        color: Color.fromARGB(255, 16, 15, 15),
+                      ),
+                    )
                   ],
                 ),
               ),
