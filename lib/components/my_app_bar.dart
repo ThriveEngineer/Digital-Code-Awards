@@ -2,6 +2,7 @@ import 'package:dca/pages/explore_page.dart';
 import 'package:dca/pages/submit_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_ad_manager_web/flutter_ad_manager_web.dart';
+import 'package:go_router/go_router.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 final Uri _urlKofi = Uri.parse('https://ko-fi.com/thriveengineer');
@@ -19,45 +20,45 @@ class MyAppBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
+    final currentWidth = MediaQuery.of(context).size.width;
+    
     return AppBar(
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(45),
         ),
       backgroundColor: Color.fromARGB(255, 16, 15, 15),
       leading: Padding(
-        padding: const EdgeInsets.only(left: 20),
-        child: Image.asset(
+        padding: currentWidth > 600 ? const EdgeInsets.only(left: 20) : const EdgeInsets.only(left: 0),
+        child: currentWidth > 600 ? Image.asset(
             "lib/assets/DCA_logo.png",
             width: 20,
             height: 20,
-            ),
+            ) : null,
       ),
           actions: [
 
               SizedBox(width: 15,),
 
-            InkWell(
-              onTap: () {
-                Navigator.push(context, PageRouteBuilder(
-                                pageBuilder: (context, animation1, animation2) => ExplorePage(),
-                                transitionDuration: Duration.zero,
-                                reverseTransitionDuration: Duration.zero,
-                            ),);
-              },
+            currentWidth > 600 ?InkWell(
+              onTap: () {GoRouter.of(context).go('/explore');},
               child: Text("Explore", style: TextStyle(
                 color: Color.fromARGB(255, 206, 205, 195),
                 fontWeight: FontWeight.w400,
                 fontSize: 16,
                  ),),
-            ),
+            ) : SizedBox(width: 0,),
 
-            SizedBox(width: 15,),
+            currentWidth > 1200 ? 
+            SizedBox(width: 15,) : 
+            SizedBox(width: 0,),
 
               SizedBox(width: 15,),
 
               InkWell(
-              onTap: () {
+              onTap: currentWidth > 600 ? () {
                 _launchUrlKofi();
+              } : () {
+                GoRouter.of(context).go('/explore');
               },
               child: Container(
                 width: 150,
@@ -69,8 +70,15 @@ class MyAppBar extends StatelessWidget {
                   borderRadius: BorderRadius.circular(8),
                 ),
                 child: Center(
-                  child: Text(
+                  child: currentWidth > 600 ? Text(
                     "Support Us", 
+                    style: TextStyle(
+                      color: Color.fromARGB(255, 206, 205, 195),
+                      fontWeight: FontWeight.w400,
+                      fontSize: 16,
+                    )
+                  ) : Text(
+                    "Explore", 
                     style: TextStyle(
                       color: Color.fromARGB(255, 206, 205, 195),
                       fontWeight: FontWeight.w400,
@@ -84,13 +92,7 @@ class MyAppBar extends StatelessWidget {
             SizedBox(width: 15,),
 
             InkWell(
-              onTap: () {
-                Navigator.push(context, PageRouteBuilder(
-                                pageBuilder: (context, animation1, animation2) => SubmitPage(),
-                                transitionDuration: Duration.zero,
-                                reverseTransitionDuration: Duration.zero,
-                            ),);
-              },
+              onTap: () {GoRouter.of(context).go('/submit');},
               child: Container(
                 width: 150,
                 height: 40,

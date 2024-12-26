@@ -3,6 +3,7 @@ import 'package:dca/components/my_app_bar.dart';
 import 'package:dca/pages/explore_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_ad_manager_web/flutter_ad_manager_web.dart';
+import 'package:go_router/go_router.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 final Uri _urlPrivacy = Uri.parse('https://thrive.framer.media/privacy');
@@ -20,6 +21,7 @@ class HomePage extends StatelessWidget {
 }
 
     final mediaQueryData = MediaQuery.of(context);
+    final currentWidth = MediaQuery.of(context).size.width;
 
     return Scaffold(
       backgroundColor: Colors.black,
@@ -28,8 +30,11 @@ class HomePage extends StatelessWidget {
 
           // APP BAR
           Padding(
-        padding: const EdgeInsets.only(left: 270, right: 270, top: 20),
-        child: MyAppBar(),
+        padding: 
+        currentWidth > 1200 ? 
+        const EdgeInsets.only(left: 270, right: 270, top: 20) : 
+        const EdgeInsets.only(left: 20, right: 20, top: 20),
+        child: const MyAppBar(),
       ),
 
       // SITE
@@ -55,11 +60,11 @@ class HomePage extends StatelessWidget {
           ),),
 
 
-        SizedBox(height: 140,),
+        currentWidth > 1200 ? SizedBox(height: 140,) : SizedBox(height: 70,),
 
               Container(
-              width: 1600,
-              height: 930,
+              width: currentWidth > 1200 ? 1600 : 400,
+              height: currentWidth > 1200 ? 930 : 233,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(20),
                 border: Border.all(
@@ -77,38 +82,32 @@ class HomePage extends StatelessWidget {
               ),
                       ),
 
-            SizedBox(height: 180,),
+            currentWidth > 1200 ? SizedBox(height: 180,) : SizedBox(height: 90,),
 
-            SelectableText("NOMINEES", style: TextStyle(
+            currentWidth > 1363 ? SelectableText("NOMINEES", style: TextStyle(
             color: Color.fromARGB(255, 206, 205, 195),
-            fontSize: 180,
+            fontSize: currentWidth > 1200 ? 180 : 90,
             fontWeight: FontWeight.bold
-          ),),
+          ),) : Text(""),
 
           SizedBox(height: 1,),
 
-          SelectableText("Vote now for the best Project in these categories", style: TextStyle(
+          currentWidth > 1363 ? SelectableText("Vote now for the best Project in these categories", style: TextStyle(
             color: Color.fromARGB(255, 158, 158, 151),
-            fontSize: 25,
+            fontSize: currentWidth > 1200 ? 25 : 15,
             fontWeight: FontWeight.w600
-          ),),
+          ),) : Text(""),
 
           SizedBox(height: 90,),
 
           // CATEGORIES
-          Row(
+          currentWidth > 1363 ? Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
 
               // WEBSITES
               InkWell(
-                onTap: () {
-                  Navigator.push(context, PageRouteBuilder(
-                                pageBuilder: (context, animation1, animation2) => ExplorePage(),
-                                transitionDuration: Duration.zero,
-                                reverseTransitionDuration: Duration.zero,
-                            ),);
-                },
+                onTap: () {GoRouter.of(context).go('/explore');},
                 child: Stack(
                   children: [
                     Container(
@@ -146,13 +145,7 @@ class HomePage extends StatelessWidget {
 
               // MOBILE APPS
               InkWell(
-                onTap: () {
-                  Navigator.push(context, PageRouteBuilder(
-                                pageBuilder: (context, animation1, animation2) => ExplorePage(),
-                                transitionDuration: Duration.zero,
-                                reverseTransitionDuration: Duration.zero,
-                            ),);
-                },
+                onTap: () {GoRouter.of(context).go('/explore');},
                 child: Stack(
                   children: [
                     Container(
@@ -186,12 +179,12 @@ class HomePage extends StatelessWidget {
                 ),
               ),
             ],
-          ),
+          ) : Row(),
 
           SizedBox(height: 20,),
 
           // SECOND CATEGORIES
-            Padding(
+            currentWidth > 1363 ? Padding(
               padding: const EdgeInsets.only(left: 30),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -199,13 +192,7 @@ class HomePage extends StatelessWidget {
 
                   // PACKAGES
                   InkWell(
-                    onTap: () {
-                      Navigator.push(context, PageRouteBuilder(
-                                pageBuilder: (context, animation1, animation2) => ExplorePage(),
-                                transitionDuration: Duration.zero,
-                                reverseTransitionDuration: Duration.zero,
-                            ),);
-                    },
+                    onTap: () {GoRouter.of(context).go('/explore');},
                     child: Stack(
                       children: [
                         Container(
@@ -243,13 +230,7 @@ class HomePage extends StatelessWidget {
             
                   // DESKTOP APPS
                   InkWell(
-                    onTap: () {
-                      Navigator.push(context, PageRouteBuilder(
-                                pageBuilder: (context, animation1, animation2) => ExplorePage(),
-                                transitionDuration: Duration.zero,
-                                reverseTransitionDuration: Duration.zero,
-                            ),);
-                    },
+                    onTap: () {GoRouter.of(context).go('/explore');},
                     child: Stack(
                       children: [
                         Container(
@@ -284,7 +265,7 @@ class HomePage extends StatelessWidget {
                   ),
                 ],
               ),
-            ),
+            ) : Row(),
 
             SizedBox(height: 100,),
 

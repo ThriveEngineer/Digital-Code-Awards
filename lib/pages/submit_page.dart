@@ -102,6 +102,7 @@ class _SubmitPageState extends State<SubmitPage> {
   @override
   Widget build(BuildContext context) {
     final mediaQueryData = MediaQuery.of(context);
+    final currentWidth = MediaQuery.of(context).size.width;
     return Scaffold(
       backgroundColor: Colors.black,
       
@@ -110,9 +111,11 @@ class _SubmitPageState extends State<SubmitPage> {
 
           // APP BAR
           Padding(
-        padding: const EdgeInsets.only(left: 270, right: 270, top: 20),
-        child: MyAppBar(),
-      ),
+                    padding: currentWidth > 1200 ? 
+                      const EdgeInsets.only(left: 270, right: 270, top: 20) : 
+                      const EdgeInsets.only(left: 20, right: 20, top: 20),
+                    child: const MyAppBar(),
+                  ),
 
       // Site
           Expanded(
@@ -125,7 +128,7 @@ class _SubmitPageState extends State<SubmitPage> {
 
                   SelectableText("Submit", style: TextStyle(
                     color: Color.fromARGB(255, 206, 205, 195),
-                    fontSize: 50,
+                    fontSize: currentWidth > 600 ? 50 : 30,
                     fontWeight: FontWeight.bold
                   ),),
 
@@ -133,7 +136,7 @@ class _SubmitPageState extends State<SubmitPage> {
 
           SelectableText("Submit to get the chance to win an award", style: TextStyle(
             color: Color.fromARGB(255, 158, 158, 151),
-            fontSize: 25,
+            fontSize: currentWidth > 600 ? 25 : 15,
             fontWeight: FontWeight.w600
           ),),
 

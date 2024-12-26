@@ -34,6 +34,7 @@ class _ExplorePageState extends State<ExplorePage> {
 
   @override
   Widget build(BuildContext context) {
+    final currentWidth = MediaQuery.of(context).size.width;
     return Scaffold(
       backgroundColor: Colors.black,
       body: SafeArea(
@@ -44,8 +45,10 @@ class _ExplorePageState extends State<ExplorePage> {
                 children: [
                   // APP BAR
                   Padding(
-                    padding: const EdgeInsets.only(left: 270, right: 270, top: 20),
-                    child: MyAppBar(),
+                    padding: currentWidth > 1200 ? 
+                      const EdgeInsets.only(left: 270, right: 270, top: 20) : 
+                      const EdgeInsets.only(left: 20, right: 20, top: 20),
+                    child: const MyAppBar(),
                   ),
 
                   // Search and Filter Section
@@ -56,7 +59,7 @@ class _ExplorePageState extends State<ExplorePage> {
                       children: [
                         // Search Bar
                         SizedBox(
-                          width: 400,
+                          width: currentWidth > 1200 ? 400 : 100,
                           child: TextField(
                             controller: _searchController,
                             style: const TextStyle(color: Color.fromARGB(255, 206, 205, 195)),
@@ -93,7 +96,7 @@ class _ExplorePageState extends State<ExplorePage> {
                             border: Border.all(color: const Color.fromARGB(255, 52, 51, 49)),
                             borderRadius: BorderRadius.circular(8),
                           ),
-                          padding: const EdgeInsets.symmetric(horizontal: 16),
+                          padding: currentWidth > 1200 ? const EdgeInsets.symmetric(horizontal: 16) : const EdgeInsets.symmetric(horizontal: 8),
                           child: DropdownButton<String>(
                             value: _selectedCategory,
                             dropdownColor: Colors.black,
@@ -121,7 +124,7 @@ class _ExplorePageState extends State<ExplorePage> {
                             border: Border.all(color: const Color.fromARGB(255, 52, 51, 49)),
                             borderRadius: BorderRadius.circular(8),
                           ),
-                          padding: const EdgeInsets.symmetric(horizontal: 16),
+                          padding: currentWidth > 1200 ? const EdgeInsets.symmetric(horizontal: 16) : const EdgeInsets.symmetric(horizontal: 8),
                           child: DropdownButton<String>(
                             value: '${_sortBy}${_descending ? "Desc" : "Asc"}',
                             dropdownColor: Colors.black,
@@ -274,6 +277,7 @@ class SubmissionCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final currentWidth = MediaQuery.of(context).size.width;
     return InkWell(
       onTap: () {
         Navigator.push(
@@ -306,7 +310,7 @@ class SubmissionCard extends StatelessWidget {
             Stack(
               children: [
                 SizedBox(
-                  height: 400,
+                  height: MediaQuery.sizeOf(context).width / 8,
                   width: double.infinity,
                   child: thumbnailUrl.isNotEmpty
                       ? Image.network(

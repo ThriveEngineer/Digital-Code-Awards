@@ -4,6 +4,7 @@ import 'package:dca/pages/home_page.dart';
 import 'package:dca/pages/nomination_page.dart';
 import 'package:dca/pages/submit_page.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 final Uri _urlPrivacy = Uri.parse('https://thrive.framer.media/privacy');
@@ -66,9 +67,7 @@ final mediaQueryData = MediaQuery.of(context);
                     Column(
                       children: [
                         InkWell(
-                          onTap: () {
-                            Navigator.push(context, MaterialPageRoute(builder: (context) => HomePage()));
-                          },
+                          onTap: () {GoRouter.of(context).go('/');},
                           child: SelectableText(
                             "Pages",
                             style: TextStyle(
@@ -80,13 +79,7 @@ final mediaQueryData = MediaQuery.of(context);
                         ),
                 
                           InkWell(
-                            onTap: () {
-                              Navigator.push(context, PageRouteBuilder(
-                                pageBuilder: (context, animation1, animation2) => HomePage(),
-                                transitionDuration: Duration.zero,
-                                reverseTransitionDuration: Duration.zero,
-                            ),);
-                            },
+                            onTap: () {GoRouter.of(context).go('/');},
                             child: Text("Home", style: TextStyle(
                               color: Color.fromARGB(255, 206, 205, 195),
                               fontSize: 18,
@@ -95,14 +88,7 @@ final mediaQueryData = MediaQuery.of(context);
                           ),
                 
                           InkWell(
-                            onTap: () {
-                              Navigator.push(context, PageRouteBuilder(
-                                pageBuilder: (context, animation1, animation2) => ExplorePage(),
-                                transitionDuration: Duration.zero,
-                                reverseTransitionDuration: Duration.zero,
-                            ),
-                                );
-                            },
+                            onTap: () {GoRouter.of(context).go('/explore');},
                             child: Text("Explore", style: TextStyle(
                               color: Color.fromARGB(255, 206, 205, 195),
                               fontSize: 18,
@@ -111,13 +97,7 @@ final mediaQueryData = MediaQuery.of(context);
                           ),
                 
                           InkWell(
-                            onTap: () {
-                              Navigator.push(context, PageRouteBuilder(
-                                pageBuilder: (context, animation1, animation2) => SubmitPage(),
-                                transitionDuration: Duration.zero,
-                                reverseTransitionDuration: Duration.zero,
-                            ),);
-                            },
+                            onTap: () {GoRouter.of(context).go('/submit');},
                             child: Text("Submit", style: TextStyle(
                               color: Color.fromARGB(255, 206, 205, 195),
                               fontSize: 18,
@@ -223,29 +203,6 @@ final mediaQueryData = MediaQuery.of(context);
                           ),
                       ],
                     ),
-                    InkWell(
-                      onTap: () {
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => ExplorePageJury()));
-                      },
-                      child: Container(
-                        width: 3,
-                        height: 20,
-                        color: Color.fromARGB(255, 16, 15, 15),
-                      ),
-                    ),
-
-                    SizedBox(width: 30,),
-
-                    InkWell(
-                      onTap: () {
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => NominationPage()));
-                      },
-                      child: Container(
-                        width: 3,
-                        height: 20,
-                        color: Color.fromARGB(255, 16, 15, 15),
-                      ),
-                    )
                   ],
                 ),
               ),

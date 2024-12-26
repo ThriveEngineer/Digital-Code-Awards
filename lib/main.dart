@@ -1,3 +1,4 @@
+import 'package:dca/components/go_router.dart';
 import 'package:dca/components/theme.dart';
 import 'package:dca/firebase_options.dart';
 import 'package:dca/pages/home_page.dart';
@@ -19,10 +20,10 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return MaterialApp.router(
       debugShowCheckedModeBanner: false,
-      home: const HomePage(),
       darkTheme: darkMode,
+      routerConfig: router,
     );
   }
 }
