@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 ThemeData darkMode = ThemeData(
-  fontFamily: "Nothing",
   brightness: Brightness.dark,
   colorScheme: ColorScheme.dark(
     surface: Colors.black,
